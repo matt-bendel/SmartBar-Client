@@ -1,0 +1,63 @@
+from time import sleep
+# import RPi.GPIO as GPIO
+from pubsub import pub
+from smart_bar import SmartBar
+from order_manager import OrderManager
+from threading import Thread
+
+class App:
+    def run(self):
+        self.setup()
+        self.loop()
+
+    def setup(self):
+        print("Create App")
+
+        pub.subscribe(self.notify, pub.ALL_TOPICS)
+
+        self.order_manager = OrderManager()
+        self.smart_bar = SmartBar()
+
+        order_manager_thread = Thread(target = self.order_manager.run, daemon = True)
+        order_manager_thread.start()
+
+        # GPIO.setmode(GPIO.BCM)
+
+    def loop(self):
+        order = {}
+
+        try:
+            while True:
+                if (self.smart_bar.isProcessing() == False) and bool(order):
+                    pub.sendMessage('order-creating', status='creating')
+                    self.smart_bar.processDrink(order["drink"])
+                    order = {}
+                elif self.smart_bar.isProcessing() == False:
+                    order = self.getNewOrder()
+
+                if (self.order_manager.cancel):
+                    print(self.order_manager.cancel)
+                    self.smart_bar.stop()
+                    self.order_manager.cancel = False
+
+                sleep(0.1)
+
+            print("Done making orders")
+        except KeyboardInterrupt:
+            print ("\nCtrl-C pressed.")
+
+    def notify(self, topicObj=pub.AUTO_TOPIC, **msgData):
+        status = False
+
+        if bool(msgData) and msgData['status']:
+            status = msgData['status']
+
+        self.order_manager.queueUpdateOrder(topicObj.getName(), status)
+        print('topic "%s": %s' % (topicObj.getName(), msgData))
+
+    def getNewOrder(self):
+        return self.order_manager.getLatestOrder()
+
+
+app = App()
+app.run()
