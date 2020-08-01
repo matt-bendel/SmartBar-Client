@@ -1,11 +1,11 @@
 from time import sleep
-# from nanpy import (ArduinoApi, SerialManager)
-# import RPi.GPIO as GPIO
-# import pigpio
+from nanpy import (ArduinoApi, SerialManager)
+import RPi.GPIO as GPIO
+import pigpio
 from pubsub import pub
 
 
-# pi = pigpio.pi()
+pi = pigpio.pi()
 
 class Pump:
     # position 0 on pin 5
@@ -29,21 +29,21 @@ class Pump:
 
     def __init__(self):
         print("Create Pump")
-        # try:
-        #     connection = SerialManager()
-        #     ar = ArduinoApi(connection=connection)
-        # except:
-        #     print("Failed to connect to Arduino.")
-        # ar.pinMode(13, ar.OUTPUT);
-        # ar.pinMode(12, ar.OUTPUT);
-        # ar.pinMode(11, ar.OUTPUT);
-        # ar.pinMode(10, ar.OUTPUT);
-        # ar.pinMode(9, ar.OUTPUT);
-        # ar.pinMode(8, ar.OUTPUT);
-        # ar.pinMode(7, ar.OUTPUT);
-        # ar.pinMode(6, ar.OUTPUT);
-        #
-        # a = ar;
+        try:
+            connection = SerialManager()
+            ar = ArduinoApi(connection=connection)
+        except:
+            print("Failed to connect to Arduino.")
+        ar.pinMode(13, ar.OUTPUT);
+        ar.pinMode(12, ar.OUTPUT);
+        ar.pinMode(11, ar.OUTPUT);
+        ar.pinMode(10, ar.OUTPUT);
+        ar.pinMode(9, ar.OUTPUT);
+        ar.pinMode(8, ar.OUTPUT);
+        ar.pinMode(7, ar.OUTPUT);
+        ar.pinMode(6, ar.OUTPUT);
+
+        self.a = ar;
 
         self.kill_all_pumps()
 
@@ -59,26 +59,26 @@ class Pump:
             sleep(0.5)
 
     def kill_all_pumps(self):
-        # self.a.digitalWrite(13, self.OFF)
-        # self.a.digitalWrite(12, self.OFF)
-        # self.a.digitalWrite(11, self.OFF)
-        # self.a.digitalWrite(10, self.OFF)
-        # self.a.digitalWrite(9, self.OFF)
-        # self.a.digitalWrite(8, self.OFF)
-        # self.a.digitalWrite(7, self.OFF)
-        # self.a.digitalWrite(6, self.OFF)
+        self.a.digitalWrite(13, self.OFF)
+        self.a.digitalWrite(12, self.OFF)
+        self.a.digitalWrite(11, self.OFF)
+        self.a.digitalWrite(10, self.OFF)
+        self.a.digitalWrite(9, self.OFF)
+        self.a.digitalWrite(8, self.OFF)
+        self.a.digitalWrite(7, self.OFF)
+        self.a.digitalWrite(6, self.OFF)
         print("All Pumps Killed")
 
     def pump(self):
         pub.sendMessage('pump-start')
         print('Current Pump Pin: ' + str(self.pin))
-        # self.a.digitalWrite(self.pin, self.ON)
+        self.a.digitalWrite(self.pin, self.ON)
 
     def stop(self):
         pub.sendMessage('pump-stop')
         for x in self.position_pins:
             pass
-            # self.a.digitalWrite(self.position_pins[x], self.OFF)
+            self.a.digitalWrite(self.position_pins[x], self.OFF)
 
     def startPump(self, position):
         if position in self.position_pins:

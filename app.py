@@ -1,5 +1,5 @@
 from time import sleep
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 from pubsub import pub
 from smart_bar import SmartBar
 from order_manager import OrderManager
@@ -21,7 +21,7 @@ class App:
         order_manager_thread = Thread(target = self.order_manager.run, daemon = True)
         order_manager_thread.start()
 
-        # GPIO.setmode(GPIO.BCM)
+        GPIO.setmode(GPIO.BCM)
 
     def loop(self):
         order = {}

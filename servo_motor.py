@@ -37,7 +37,7 @@ class ServoMotor:
 
     def down(self):
         print('dispens-down')
-        #pi.set_servo_pulsewidth(self.SERVO_PIN, 500) # 0 degree
+        # pi.set_servo_pulsewidth(self.SERVO_PIN, 500) # 0 degree
 
     def dispens(self):
         self.up()
