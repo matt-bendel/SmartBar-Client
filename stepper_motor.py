@@ -3,11 +3,12 @@ import RPi.GPIO as GPIO
 import pigpio
 from pubsub import pub
 pi = pigpio.pi()
+GPIO.setmode(GPIO.BCM)
 
 class StepperMotor:
     current_position = 0
     current_rotation = 1
-    destination = -1
+    destination = 0
     complete = False
 
     DIRECTION_PIN = 20
@@ -34,16 +35,17 @@ class StepperMotor:
     def setup(self):
         print("move")
         # Set up pins as an output
-        pi.set_mode(self.DIRECTION_PIN, pigpio.OUTPUT)
-        pi.set_mode(self.STEP_PIN, pigpio.OUTPUT)
+        GPIO.setup(self.DIRECTION_PIN, GPIO.OUT)
+        GPIO.setup(self.STEP_PIN, GPIO.OUT)
         self.setupSensor()
 
     def setupSensor(self):
        for pin in self.SENSOR_PINS:
            GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
            GPIO.add_event_detect(pin, GPIO.FALLING, callback=self.activeSensor, bouncetime=100)
-           if not GPIO.input(self.SENSOR_PINS[pin]):
+           if not GPIO.input(pin):
                self.current_position = pin
+               print(str(self.current_position))
 
     def activeSensor(self, pin):
         self.current_position = self.SENSOR_PINS.index(pin)
@@ -52,8 +54,6 @@ class StepperMotor:
 
     def drive(self):
         pub.sendMessage('stepper-drive')
-        # TODO: Remove below line it is for testing
-        self.activeSensor(self.SENSOR_PINS[self.destination])
         pi.set_PWM_dutycycle(self.STEP_PIN, 128)
         pi.set_PWM_frequency(self.STEP_PIN, 800)
         pi.write(self.DIRECTION_PIN, self.current_rotation) # Set default direction
@@ -62,10 +62,10 @@ class StepperMotor:
 
     def check_route(self):
         if self.current_position > self.destination:
-            self.current_rotation = self.CW
+            self.current_rotation = self.CCW
             self.drive()
         elif self.current_position < self.destination:
-            self.current_rotation = self.CCW
+            self.current_rotation = self.CW
             self.drive()
         elif self.arrived():
             self.stop()
@@ -76,7 +76,7 @@ class StepperMotor:
         if destination == 0:
             self.complete = True
         self.destination = destination
-        print('Stepper Dest: ' + str(self.SENSOR_PINS[destination]))
+        print('Stepper Dest: ' + str(destination) + ' Pin: ' + str(self.SENSOR_PINS[destination]))
 
     def arrived(self):
         return self.current_position == self.destination

@@ -9,8 +9,8 @@ pi = pigpio.pi()
 
 class Pump:
     # position 0 on pin 5
-    ON = 1
-    OFF = 0
+    ON = 0
+    OFF = 1
     pin = False
     position_pins = {
         1: 13,

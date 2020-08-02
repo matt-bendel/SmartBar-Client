@@ -28,7 +28,7 @@ class App:
 
         try:
             while True:
-                if (self.smart_bar.isProcessing() == False) and bool(order):
+                if not self.smart_bar.isProcessing() and bool(order):
                     pub.sendMessage('order-creating', status='creating')
                     self.smart_bar.processDrink(order["drink"])
                     order = {}
@@ -45,6 +45,8 @@ class App:
             print("Done making orders")
         except KeyboardInterrupt:
             print ("\nCtrl-C pressed.")
+            self.smart_bar.stop()
+            GPIO.cleanup()
 
     def notify(self, topicObj=pub.AUTO_TOPIC, **msgData):
         status = False
