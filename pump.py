@@ -36,18 +36,19 @@ class Pump:
             print("Failed to connect to Arduino.")
             exit()
 
+        self.a = ar
+
         self.kill_all_pumps()
 
-        ar.pinMode(13, ar.OUTPUT);
-        ar.pinMode(12, ar.OUTPUT);
-        ar.pinMode(11, ar.OUTPUT);
-        ar.pinMode(10, ar.OUTPUT);
-        ar.pinMode(9, ar.OUTPUT);
-        ar.pinMode(8, ar.OUTPUT);
-        ar.pinMode(7, ar.OUTPUT);
-        ar.pinMode(6, ar.OUTPUT);
+        self.a.pinMode(13, ar.OUTPUT);
+        self.a.pinMode(12, ar.OUTPUT);
+        self.a.pinMode(11, ar.OUTPUT);
+        self.a.pinMode(10, ar.OUTPUT);
+        self.a.pinMode(9, ar.OUTPUT);
+        self.a.pinMode(8, ar.OUTPUT);
+        self.a.pinMode(7, ar.OUTPUT);
+        self.a.pinMode(6, ar.OUTPUT);
 
-        self.a = ar;
 
     def __del__(self):
         self.stop()

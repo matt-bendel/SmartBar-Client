@@ -28,7 +28,7 @@ class WeightSensor:
     def read(self):
         value = self.a.analogRead(self.fsr_reading)
 
-        tmp_glass_placed = value >= 150
+        tmp_glass_placed = value >= 25
 
         if tmp_glass_placed != self.glass_placed:
             self.glass_placed = tmp_glass_placed

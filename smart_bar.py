@@ -2,13 +2,13 @@ from stepper_motor import StepperMotor
 from servo_motor import ServoMotor
 from pump import Pump
 from weight_sensor import WeightSensor
-from led import Led
+# from led import Led
 from time import sleep
 from threading import Thread
 from pubsub import pub
 import requests
-import board
-import neopixel
+# import board
+# import neopixel
 
 class SmartBar:
     currentDrink = {}
@@ -17,15 +17,15 @@ class SmartBar:
 
     def __init__(self):
         print("Create SmartBar")
-        self.num_pixels = False
-        self.pixel_pin = board.D23
-        self.pixel_order = neopixel.GRB
-        self.pixels = neopixel.NeoPixel(self.pixel_pin, self.num_pixels, brightness=0.05, auto_write=False, pixel_order=self.order)
+        # self.num_pixels = False
+        # self.pixel_pin = board.D23
+        # self.pixel_order = neopixel.GRB
+        # self.pixels = neopixel.NeoPixel(self.pixel_pin, self.num_pixels, brightness=0.05, auto_write=False, pixel_order=self.order)
         self.stepper_motor = StepperMotor()
         self.servo_motor = ServoMotor()
         self.pump = Pump()
         self.weight_sensor = WeightSensor()
-        self.led = Led()
+        # self.led = Led()
         self.setup()
 
     def setup(self):
@@ -75,8 +75,10 @@ class SmartBar:
         # self.stepper_motor.check_route()
         # if glass is all ready placed check route
 
-        if self.weight_sensor.glass_placed:
-            self.stepper_motor.check_route()
+        while not self.weight_sensor.glass_placed:
+            sleep(0.5)
+
+        self.stepper_motor.check_route()
 
     def isProcessing(self):
         return self.processing
