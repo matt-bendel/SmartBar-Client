@@ -44,7 +44,7 @@ class StepperMotor:
            GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
            GPIO.add_event_detect(pin, GPIO.FALLING, callback=self.activeSensor, bouncetime=100)
            if not GPIO.input(pin):
-               self.current_position = pin
+               self.current_position = self.SENSOR_PINS.index(pin)
                print(str(self.current_position))
 
     def activeSensor(self, pin):

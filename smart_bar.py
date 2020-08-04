@@ -1,7 +1,7 @@
 from stepper_motor import StepperMotor
 from servo_motor import ServoMotor
 from pump import Pump
-from weight_sensor import WeightSensor
+# from weight_sensor import WeightSensor
 # from led import Led
 from time import sleep
 from threading import Thread
@@ -24,7 +24,7 @@ class SmartBar:
         self.stepper_motor = StepperMotor()
         self.servo_motor = ServoMotor()
         self.pump = Pump()
-        self.weight_sensor = WeightSensor()
+        # self.weight_sensor = WeightSensor()
         # self.led = Led()
         self.setup()
 
@@ -34,8 +34,8 @@ class SmartBar:
         # led_thread = Thread(target = self.led.run, daemon = True)
         # led_thread.start()
 
-        weight_sensor_thread = Thread(target = self.weight_sensor.run, daemon = True)
-        weight_sensor_thread.start()
+        # weight_sensor_thread = Thread(target = self.weight_sensor.run, daemon = True)
+        # weight_sensor_thread.start()
 
         servo_motor_thread = Thread(target = self.servo_motor.run, daemon = True)
         servo_motor_thread.start()
@@ -75,8 +75,8 @@ class SmartBar:
         # self.stepper_motor.check_route()
         # if glass is all ready placed check route
 
-        while not self.weight_sensor.glass_placed:
-            sleep(0.5)
+        # while not self.weight_sensor.glass_placed:
+        #     sleep(0.5)
 
         self.stepper_motor.check_route()
 

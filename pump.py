@@ -13,9 +13,9 @@ class Pump:
     OFF = 1
     pin = False
     position_pins = {
-        1: 13,
+        1: 5,
         2: 12,
-        3: 11,
+        3: 2,
         4: 10,
         5: 9,
         6: 8,
@@ -40,14 +40,14 @@ class Pump:
 
         self.kill_all_pumps()
 
-        self.a.pinMode(13, ar.OUTPUT);
-        self.a.pinMode(12, ar.OUTPUT);
-        self.a.pinMode(11, ar.OUTPUT);
-        self.a.pinMode(10, ar.OUTPUT);
-        self.a.pinMode(9, ar.OUTPUT);
-        self.a.pinMode(8, ar.OUTPUT);
-        self.a.pinMode(7, ar.OUTPUT);
-        self.a.pinMode(6, ar.OUTPUT);
+        self.a.pinMode(5, self.a.OUTPUT)
+        self.a.pinMode(12, self.a.OUTPUT)
+        self.a.pinMode(2, self.a.OUTPUT)
+        self.a.pinMode(10, self.a.OUTPUT)
+        self.a.pinMode(9, self.a.OUTPUT)
+        self.a.pinMode(8, self.a.OUTPUT)
+        self.a.pinMode(7, self.a.OUTPUT)
+        self.a.pinMode(6, self.a.OUTPUT)
 
 
     def __del__(self):
@@ -62,9 +62,9 @@ class Pump:
             sleep(0.5)
 
     def kill_all_pumps(self):
-        self.a.digitalWrite(13, self.OFF)
+        self.a.digitalWrite(5, self.OFF)
         self.a.digitalWrite(12, self.OFF)
-        self.a.digitalWrite(11, self.OFF)
+        self.a.digitalWrite(2, self.OFF)
         self.a.digitalWrite(10, self.OFF)
         self.a.digitalWrite(9, self.OFF)
         self.a.digitalWrite(8, self.OFF)
