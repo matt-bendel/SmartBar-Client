@@ -1,12 +1,12 @@
 from time import sleep
-# import pigpio
+import pigpio
 from pubsub import pub
 
-#pi = pigpio.pi()
+pi = pigpio.pi()
 
 class ServoMotor:
     # TODO: Get pin
-    SERVO_PIN = 12
+    SERVO_PIN = 14
     start_dispens = False
     amount = 1
 
@@ -33,11 +33,11 @@ class ServoMotor:
 
     def up(self):
         pub.sendMessage('dispens-up')
-        #pi.set_servo_pulsewidth(self.SERVO_PIN, 1300) # 120 degree
+        pi.set_servo_pulsewidth(self.SERVO_PIN, 1300) # 120 degree
 
     def down(self):
         print('dispens-down')
-        # pi.set_servo_pulsewidth(self.SERVO_PIN, 500) # 0 degree
+        pi.set_servo_pulsewidth(self.SERVO_PIN, 500) # 0 degree
 
     def dispens(self):
         self.up()
@@ -47,4 +47,4 @@ class ServoMotor:
 
     def stop(self):
         print('dispens-stop')
-        #pi.set_servo_pulsewidth(self.SERVO_PIN, 0) # stop
+        pi.set_servo_pulsewidth(self.SERVO_PIN, 0) # stop

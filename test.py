@@ -1,6 +1,23 @@
 from time import sleep
 from nanpy import (ArduinoApi, SerialManager)
 import RPi.GPIO as GPIO
+# import board
+# import neopixel
+#
+# num_pixels = 21
+# pixel_pin = board.D18
+# order = neopixel.GRB
+# pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.05, auto_write=False, pixel_order=order)
+#
+# def blue(selfself):
+#     print("green")
+#     pixels.fill((0, 0, 255))
+#     pixels.show()
+#
+# sleep(5)
+# pixels.fill((0, 0, 0))
+# pixels.show()
+# exit()
 
 try:
     connection = SerialManager()
@@ -61,3 +78,4 @@ sleep(2)
 a.digitalWrite(6, a.LOW)
 sleep(0.75)
 a.digitalWrite(6, a.HIGH)
+

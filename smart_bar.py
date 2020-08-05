@@ -7,8 +7,6 @@ from time import sleep
 from threading import Thread
 from pubsub import pub
 import requests
-# import board
-# import neopixel
 
 class SmartBar:
     currentDrink = {}
@@ -17,10 +15,6 @@ class SmartBar:
 
     def __init__(self):
         print("Create SmartBar")
-        # self.num_pixels = False
-        # self.pixel_pin = board.D23
-        # self.pixel_order = neopixel.GRB
-        # self.pixels = neopixel.NeoPixel(self.pixel_pin, self.num_pixels, brightness=0.05, auto_write=False, pixel_order=self.order)
         self.stepper_motor = StepperMotor()
         self.servo_motor = ServoMotor()
         self.pump = Pump()
@@ -29,8 +23,6 @@ class SmartBar:
         self.setup()
 
     def setup(self):
-        # self.rainbow_cycle()
-        #
         # led_thread = Thread(target = self.led.run, daemon = True)
         # led_thread.start()
 
@@ -60,10 +52,10 @@ class SmartBar:
 
     def prepareNextIngredient(self):
         if not self.currentDrink["ingredients"]:
+            self.stepper_motor.no_order = True
             requests.get('http://smart-bar-app.herokuapp.com/api/orders/delete_all')
             pub.sendMessage('order-completed', status='completed')
             self.processing = False
-
             return
 
         self.currentIngredient = self.currentDrink["ingredients"].pop(0)
@@ -78,6 +70,7 @@ class SmartBar:
         # while not self.weight_sensor.glass_placed:
         #     sleep(0.5)
 
+        self.stepper_motor.no_order = False
         self.stepper_motor.check_route()
 
     def isProcessing(self):
@@ -103,31 +96,3 @@ class SmartBar:
         self.pump.stop()
         self.processing = False
 
-    def rainbow_cycle(self, wait=0.001):
-        for j in range(255):
-            for i in range(self.num_pixels):
-                pixel_index = (i * 256 // self.num_pixels) + j
-                self.pixels[i] = self.wheel(pixel_index & 255)
-            self.pixels.show()
-            sleep(wait)
-
-    def wheel(self, pos):
-        # Input a value 0 to 255 to get a color value.
-        # The colours are a transition r - g - b - back to r.
-        if pos < 0 or pos > 255:
-            r = g = b = 0
-        elif pos < 85:
-            r = int(pos * 3)
-            g = int(255 - pos*3)
-            b = 0
-        elif pos < 170:
-            pos -= 85
-            r = int(255 - pos*3)
-            g = 0
-            b = int(pos*3)
-        else:
-            pos -= 170
-            r = 0
-            g = int(pos*3)
-            b = int(255 - pos*3)
-        return (r, g, b) if self.pixel_order == neopixel.RGB or self.pixel_order == neopixel.GRB else (r, g, b, 0)

@@ -10,7 +10,7 @@ class StepperMotor:
     current_rotation = 1
     destination = 0
     complete = False
-
+    no_order = True
     DIRECTION_PIN = 20
     STEP_PIN = 21
     CCW = 0 # Counterclockwise rotation
@@ -48,9 +48,11 @@ class StepperMotor:
                print(str(self.current_position))
 
     def activeSensor(self, pin):
+        if self.no_order:
+            return
         self.current_position = self.SENSOR_PINS.index(pin)
         self.check_route()
-        print("sensor" + str(self.current_position))
+        print("sensor: " + str(self.current_position))
 
     def drive(self):
         pub.sendMessage('stepper-drive')
@@ -87,5 +89,5 @@ class StepperMotor:
         pi.set_PWM_frequency(self.STEP_PIN, 0)
 
     def listenGlassPlaced(self):
-        if self.destination == False:
+        if self.destination == 0:
             self.check_route()
