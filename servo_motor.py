@@ -9,6 +9,7 @@ class ServoMotor:
     SERVO_PIN = 14
     start_dispens = False
     amount = 1
+    cancel = False
 
     def __init__(self):
         print("Create Servo")
@@ -20,7 +21,15 @@ class ServoMotor:
         while True:
             if self.start_dispens:
                 for x in range(self.amount):
+                    if self.cancel:
+                        self.down()
+                        break
+
                     self.dispens()
+
+                if self.cancel:
+                    self.cancel = False
+
                 self.start_dispens = False
                 pub.sendMessage('dispens-complete')
             sleep(0.5)
@@ -47,4 +56,5 @@ class ServoMotor:
 
     def stop(self):
         print('dispens-stop')
-        pi.set_servo_pulsewidth(self.SERVO_PIN, 0) # stop
+        pi.set_servo_pulsewidth(self.SERVO_PIN, 500)
+        pi.set_servo_pulsewidth(self.SERVO_PIN, 0)# stop

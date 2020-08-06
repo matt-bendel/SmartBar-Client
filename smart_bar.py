@@ -1,7 +1,7 @@
 from stepper_motor import StepperMotor
 from servo_motor import ServoMotor
 from pump import Pump
-# from weight_sensor import WeightSensor
+from weight_sensor import WeightSensor
 # from led import Led
 from time import sleep
 from threading import Thread
@@ -18,7 +18,7 @@ class SmartBar:
         self.stepper_motor = StepperMotor()
         self.servo_motor = ServoMotor()
         self.pump = Pump()
-        # self.weight_sensor = WeightSensor()
+        self.weight_sensor = WeightSensor()
         # self.led = Led()
         self.setup()
 
@@ -26,8 +26,8 @@ class SmartBar:
         # led_thread = Thread(target = self.led.run, daemon = True)
         # led_thread.start()
 
-        # weight_sensor_thread = Thread(target = self.weight_sensor.run, daemon = True)
-        # weight_sensor_thread.start()
+        weight_sensor_thread = Thread(target = self.weight_sensor.run, daemon = True)
+        weight_sensor_thread.start()
 
         servo_motor_thread = Thread(target = self.servo_motor.run, daemon = True)
         servo_motor_thread.start()
@@ -64,11 +64,9 @@ class SmartBar:
         else:
             self.stepper_motor.setDestination(self.currentIngredient["position"])
 
-        # self.stepper_motor.check_route()
         # if glass is all ready placed check route
-
-        # while not self.weight_sensor.glass_placed:
-        #     sleep(0.5)
+        while not self.weight_sensor.glass_placed:
+            sleep(0.5)
 
         self.stepper_motor.no_order = False
         self.stepper_motor.check_route()
@@ -83,6 +81,9 @@ class SmartBar:
         self.prepareNextIngredient()
 
     def lissentArrived(self):
+        if not self.currentIngredient:
+            return
+
         if self.currentIngredient["type"] == "liquor":
             self.servo_motor.startDispens(self.currentIngredient["pivot"]["amount"])
         elif self.currentIngredient["type"] == "mixer":
@@ -90,9 +91,13 @@ class SmartBar:
 
     def stop(self):
         pub.sendMessage('order-cancelled', status='cancelled')
+        requests.get('http://smart-bar-app.herokuapp.com/api/orders/delete_all')
+        self.currentDrink = {}
+        self.currentIngredient = {}
         # self.led.orange()
+        self.servo_motor.cancel = True;
         self.stepper_motor.stop()
-        self.servo_motor.stop()
+        self.stepper_motor.go_home()
         self.pump.stop()
         self.processing = False
 

@@ -80,7 +80,6 @@ class Pump:
     def stop(self):
         pub.sendMessage('pump-stop')
         for x in self.position_pins:
-            pass
             self.a.digitalWrite(self.position_pins[x], self.OFF)
 
     def startPump(self, position):

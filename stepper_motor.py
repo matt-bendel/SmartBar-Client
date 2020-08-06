@@ -91,3 +91,7 @@ class StepperMotor:
     def listenGlassPlaced(self):
         if self.destination == 0:
             self.check_route()
+
+    def go_home(self):
+        self.setDestination(0)
+        self.check_route()
