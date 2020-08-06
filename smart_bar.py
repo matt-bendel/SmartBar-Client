@@ -95,7 +95,7 @@ class SmartBar:
         if self.complete:
             self.complete = False
             return
-        
+
         pub.sendMessage('order-cancelled', status='cancelled')
         requests.get('http://smart-bar-app.herokuapp.com/api/orders/delete_all')
         self.currentDrink = {}
