@@ -22,7 +22,6 @@ class WeightSensor:
     def run(self):
         while True:
             val = self.read()
-            print("Analog Reading: " + str(val))
             sleep(0.5)
 
     def read(self):

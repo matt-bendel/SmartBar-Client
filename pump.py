@@ -64,7 +64,7 @@ class Pump:
     def kill_all_pumps(self):
         self.a.digitalWrite(5, self.OFF)
         self.a.digitalWrite(12, self.OFF)
-        self.a.digitalWrite(2, self.OFF)
+        self.a.digitalWrite(13, self.OFF)
         self.a.digitalWrite(10, self.OFF)
         self.a.digitalWrite(9, self.OFF)
         self.a.digitalWrite(8, self.OFF)

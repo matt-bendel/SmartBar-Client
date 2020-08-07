@@ -56,5 +56,4 @@ class ServoMotor:
 
     def stop(self):
         print('dispens-stop')
-        pi.set_servo_pulsewidth(self.SERVO_PIN, 500)
-        pi.set_servo_pulsewidth(self.SERVO_PIN, 0)# stop
+        pi.set_servo_pulsewidth(self.SERVO_PIN, 500)# stop
