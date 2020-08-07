@@ -50,12 +50,16 @@ class SmartBar:
             return False
 
         self.processing = True
+        self.canceled = False
+        self.dispense = True
+        self.servo_motor.cancel = False
         self.currentDrink = drink
         self.prepareNextIngredient()
         print("start")
 
     def prepareNextIngredient(self):
         if self.canceled or not self.currentDrink["ingredients"]:
+            print("In here too soon")
             self.complete = True
             if not self.mixer:
                 self.dispense = False
@@ -101,8 +105,9 @@ class SmartBar:
 
     def lissentArrived(self):
         if not self.currentIngredient:
+            print("In here too early")
             return
-
+        print("arrived in listener")
         if self.currentIngredient["type"] == "liquor":
             if self.dispense:
                 self.servo_motor.startDispens(self.currentIngredient["pivot"]["amount"])

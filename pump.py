@@ -15,7 +15,7 @@ class Pump:
     position_pins = {
         1: 5,
         2: 12,
-        3: 2,
+        3: 11,
         4: 10,
         5: 9,
         6: 8,
@@ -42,7 +42,7 @@ class Pump:
 
         self.a.pinMode(5, self.a.OUTPUT)
         self.a.pinMode(12, self.a.OUTPUT)
-        self.a.pinMode(2, self.a.OUTPUT)
+        self.a.pinMode(11, self.a.OUTPUT)
         self.a.pinMode(10, self.a.OUTPUT)
         self.a.pinMode(9, self.a.OUTPUT)
         self.a.pinMode(8, self.a.OUTPUT)
@@ -64,7 +64,7 @@ class Pump:
     def kill_all_pumps(self):
         self.a.digitalWrite(5, self.OFF)
         self.a.digitalWrite(12, self.OFF)
-        self.a.digitalWrite(13, self.OFF)
+        self.a.digitalWrite(11, self.OFF)
         self.a.digitalWrite(10, self.OFF)
         self.a.digitalWrite(9, self.OFF)
         self.a.digitalWrite(8, self.OFF)
