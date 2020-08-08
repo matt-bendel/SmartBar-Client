@@ -4,6 +4,7 @@ from pubsub import pub
 from smart_bar import SmartBar
 from order_manager import OrderManager
 from threading import Thread
+import requests
 
 class App:
     def run(self):
@@ -31,6 +32,7 @@ class App:
                 if not self.smart_bar.isProcessing() and bool(order):
                     pub.sendMessage('order-creating', status='creating')
                     self.smart_bar.processDrink(order["drink"])
+                    requests.get('http://smart-bar-app.herokuapp.com/api/orders/delete_all')
                     order = {}
                 elif self.smart_bar.isProcessing() == False:
                     order = self.getNewOrder()

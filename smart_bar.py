@@ -58,7 +58,7 @@ class SmartBar:
         print("start")
 
     def prepareNextIngredient(self):
-        if self.canceled or self.currentIngredient == {} or not self.currentDrink["ingredients"]:
+        if self.canceled or not self.currentDrink["ingredients"]:
             print("In here too soon")
             self.complete = True
             if not self.mixer:

@@ -19,11 +19,11 @@ class OrderManager:
     def run(self):
         while True:
             # process updates
-            updates = self.updates
-            self.updates = []
-
-            for update in updates:
-                self.updateOrder(update['message'], update['status'], update['order-id'])
+            # updatesates = self.updates
+            # self.updates = []
+            #
+            # for update in updates:
+            #     self.updateOrder(update['message'], update['status'], update['order-id'])
 
             # fetch latest orders
             self.getOrders()
