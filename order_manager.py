@@ -52,6 +52,7 @@ class OrderManager:
             data['status'] = status
 
         requests.get('http://smart-bar-app.herokuapp.com/api/orders/delete_all')
+        print("order manager delete")
 
     def getLatestOrder(self):
         if self.order:

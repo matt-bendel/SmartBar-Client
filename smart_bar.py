@@ -62,6 +62,7 @@ class SmartBar:
             print("In here too soon")
             self.complete = True
             if not self.mixer:
+                print("no mixer")
                 self.dispense = False
                 self.stepper_motor.setDestination(0)
                 self.stepper_motor.check_route()
@@ -72,8 +73,11 @@ class SmartBar:
             self.mixer = False
             self.stepper_motor.no_order = True
             requests.get('http://smart-bar-app.herokuapp.com/api/orders/delete_all')
+            print("prepare delete")
             if not self.canceled:
                 pub.sendMessage('order-completed')
+                self.currentIngredient = {}
+                self.currentDrink = {}
             self.processing = False
             self.canceled = False
             return
@@ -81,6 +85,8 @@ class SmartBar:
         self.currentIngredient = self.currentDrink["ingredients"].pop(0)
         if self.currentIngredient["type"] == 'mixer':
             self.mixer = True
+            self.dispense = False
+            self.servo_motor.start_dispens = False
             self.stepper_motor.setDestination(0)
             print("TEST TEST TEST")
         else:
@@ -118,21 +124,22 @@ class SmartBar:
     def stop(self):
         if self.complete:
             self.led.rainbow = False
-            sleep(2)
+            sleep(1)
             self.led.red()
             self.complete = False
             return
 
         pub.sendMessage('order-cancelled')
         requests.get('http://smart-bar-app.herokuapp.com/api/orders/delete_all')
+        print("stop delete")
         self.currentDrink = {}
         self.currentIngredient = {}
         self.servo_motor.cancel = True
         self.stepper_motor.stop()
         self.stepper_motor.go_home()
         self.led.rainbow = False
-        self.led.red()
         self.pump.stop()
         self.processing = False
         self.canceled = True
+        self.led.red()
 
