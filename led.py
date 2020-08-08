@@ -16,7 +16,7 @@ class Led:
 
         pub.subscribe(self.green, 'glass-placed')
         pub.subscribe(self.red, 'glass-removed')
-        pub.subscribe(self.orange, 'stepper-drive')
+        pub.subscribe(self.pink, 'stepper-drive')
         pub.subscribe(self.blue, 'stepper-arrived')
         pub.subscribe(self.showRainBow, 'order-completed')
         pub.subscribe(self.red, 'order-cancelled')
@@ -53,10 +53,10 @@ class Led:
             self.pixels.show()
             sleep(wait)
 
-    def orange(self):
-        print("orange")
+    def pink(self):
+        print("pink")
         self.rainbow = False
-        self.pixels.fill((255, 128, 0))
+        self.pixels.fill((255, 51, 119))
         self.pixels.show()
 
     def red(self):
