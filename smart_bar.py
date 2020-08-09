@@ -110,7 +110,7 @@ class SmartBar:
         self.prepareNextIngredient()
 
     def lissentArrived(self):
-        if self.currentIngredient == {}:
+        if self.currentIngredient == {} or self.complete:
             print("In here too early")
             return
         print("arrived in listener")
