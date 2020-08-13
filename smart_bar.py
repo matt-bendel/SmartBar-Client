@@ -96,6 +96,8 @@ class SmartBar:
         while not self.weight_sensor.glass_placed:
             sleep(0.5)
 
+        sleep(2)
+
         self.servo_motor.cancel = False
         self.stepper_motor.no_order = False
         self.stepper_motor.check_route()

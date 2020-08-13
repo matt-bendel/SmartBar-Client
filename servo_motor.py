@@ -7,6 +7,8 @@ pi = pigpio.pi()
 class ServoMotor:
     # TODO: Get pin
     SERVO_PIN = 14
+    UP_PWM = 0
+    DOWN_PWM = 0
     start_dispens = False
     amount = 1
     cancel = False
@@ -46,13 +48,13 @@ class ServoMotor:
 
     def down(self):
         print('dispens-down')
-        pi.set_servo_pulsewidth(self.SERVO_PIN, 500) # 0 degree
+        pi.set_servo_pulsewidth(self.SERVO_PIN, 1500) # 0 degree
 
     def dispens(self):
         self.up()
-        sleep(3)
+        sleep(4)
         self.down()
-        sleep(1.5)
+        sleep(2)
 
     def stop(self):
         print('dispens-stop')

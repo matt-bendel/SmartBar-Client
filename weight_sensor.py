@@ -4,7 +4,6 @@ from pubsub import pub
 
 class WeightSensor:
     FSR_ANALOG = 0
-    fsr_reading = 0
     a = False
     glass_placed = False
 
@@ -25,7 +24,7 @@ class WeightSensor:
             sleep(0.5)
 
     def read(self):
-        value = self.a.analogRead(self.fsr_reading)
+        value = self.a.analogRead(self.FSR_ANALOG)
 
         tmp_glass_placed = value >= 25
 

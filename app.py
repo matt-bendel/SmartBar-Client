@@ -13,6 +13,7 @@ class App:
 
     def setup(self):
         print("Create App")
+        requests.get('http://smart-bar-app.herokuapp.com/api/orders/delete_all')
 
         pub.subscribe(self.notify, pub.ALL_TOPICS)
 
