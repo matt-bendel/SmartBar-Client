@@ -46,7 +46,6 @@ class App:
         except KeyboardInterrupt:
             print ("\nCtrl-C pressed.")
             self.smart_bar.stop()
-            GPIO.cleanup()
 
     def notify(self, topicObj=pub.AUTO_TOPIC, **msgData):
         status = False
