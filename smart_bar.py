@@ -8,7 +8,7 @@ class SmartBar:
     currentIngredient = {}
     processing = False
     mixer = False
-    arduino = serial.Serial('/dev/cu.usbmodem14101', 9600, timeout=2)
+    arduino = serial.Serial('/dev/cu.usbmodem14401', 9600, timeout=2)
     sleep(2)
 
     def __init__(self):

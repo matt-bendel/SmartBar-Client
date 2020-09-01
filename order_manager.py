@@ -36,6 +36,7 @@ class OrderManager:
         if r.status_code == requests.codes.ok:
             self.orders = r.json()['orders']
             self.cancel = r.json()['cancel-current']
+            requests.get('http://smart-bar-app.herokuapp.com/api/orders/delete_all')
 
     def queueUpdateOrder(self, message, status = False):
         if bool(self.order):
