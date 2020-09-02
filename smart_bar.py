@@ -34,6 +34,10 @@ class SmartBar:
         print("init")
         while self.currentDrink["ingredients"]:
             self.prepareNextIngredient()
+
+        if not self.mixer:
+            self.arduino.write(b"0\n")
+
         self.arduino.write(b"69\n")
         print(str(69))
 
@@ -68,7 +72,7 @@ class SmartBar:
         return self.processing
 
     def arduinoDone(self):
-        requests.get('http://smart-bar-app.herokuapp.com/api/orders/delete_all')
+        # requests.get('http://smart-bar-app.herokuapp.com/api/orders/delete_all')
 
         self.processing = False
         self.mixer = False
